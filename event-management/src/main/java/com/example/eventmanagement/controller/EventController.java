@@ -2,8 +2,6 @@ package com.example.eventmanagement.controller;
 
 import com.example.eventmanagement.dto.EventRequestDTO;
 import com.example.eventmanagement.model.Event;
-import com.example.eventmanagement.model.EventRequestSensiteDTO;
-import com.example.eventmanagement.dto.EventRequestSensitiveDTO;
 import com.example.eventmanagement.service.EventService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -46,13 +44,5 @@ public class EventController {
             @RequestBody @Valid EventRequestDTO request
     ) {
         eventService.alterEventById(eventId, request);
-    }
-
-    @PutMapping("/alter-sensitive/{id}")
-    public void alterEventSensitiveDataById(
-            @PathVariable(value = "id") Long eventId,
-            @RequestBody EventRequestSensitiveDTO request
-    ) {
-        eventService.alterEventSensitiveDataById(eventId, request);
     }
 }

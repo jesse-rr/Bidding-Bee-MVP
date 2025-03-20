@@ -2,7 +2,6 @@ package com.example.eventmanagement.service;
 
 import com.example.eventmanagement.dto.EventRequestDTO;
 import com.example.eventmanagement.model.Event;
-import com.example.eventmanagement.dto.EventRequestSensitiveDTO;
 import com.example.eventmanagement.model.EventStatus;
 import com.example.eventmanagement.repository.EventRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -40,8 +39,9 @@ public class EventService {
             throw new RuntimeException("CANNOT ALTER EVENT WHEN OPEN");
         }
         if (event.getAuctionType().isReserveType() && Duration.between(event.getStartDate(), event.getEndDate()).toMinutes() < 1440) {
-            throw new RuntimeException("CANNOT ALTER RESERVE-EVENT WHEN 24h FOR OPEN - ID :: "+eventId)
+            throw new RuntimeException("CANNOT ALTER RESERVE-EVENT WHEN 24h FOR OPEN - ID :: "+eventId);
         }
+
         event.setName(request.name());
         event.setDescription(request.description());
         event.setAuthorizationAccess(request.authorizationAccess());
@@ -53,14 +53,5 @@ public class EventService {
         log.info("GETTING EVENTS BY ID :: {}",eventId);
         return eventRepository.findById(eventId)
                 .orElseThrow(() -> new EntityNotFoundException("EVENT NOT FOUND WITH ID :: "+eventId));
-    }
-
-    public void alterEventSensitiveDataById(Long eventId, EventRequestSensitiveDTO request) {
-        Event event = getEventById(eventId);
-
-    }
-
-    private void checks() {
-
     }
 }

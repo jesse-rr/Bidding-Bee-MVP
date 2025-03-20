@@ -1,7 +1,10 @@
-package com.example.product.model;
+package com.example.bid.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -9,35 +12,23 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Currency;
-import java.util.List;
 
-@Entity(name = "product")
-@Table(name = "product")
-@Getter
-@Setter
+@Entity(name = "bid")
+@Table(name = "bid")
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@Getter
+@Setter
 @EntityListeners(AuditingEntityListener.class)
-public class Product {
+public class Bid {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long productId;
+    private Long bidId;
 
-    private Long userId;
-    private String name;
-    private String description;
-    private BigDecimal initialPrice;
-    private BigDecimal finalPrice;
-    private BigDecimal minimalBid;
-    private int quantity;
+    private BigDecimal bidAmount;
     private Currency currency;
 
-    @ElementCollection
-    private List<String> categories;
-    @ElementCollection
-    private List<String> tags;
 
     @CreatedDate
     @Column(updatable = false, nullable = false)

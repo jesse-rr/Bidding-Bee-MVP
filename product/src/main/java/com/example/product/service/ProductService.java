@@ -39,8 +39,10 @@ public class ProductService {
         product.setDescription(request.description());
         product.setName(request.name());
         product.setCurrency(request.currency());
-        product.setPrice(request.price());
         product.setQuantity(request.quantity());
+        product.setMinimalBid(request.minimalBid());
+        product.setInitialPrice(request.initialPrice());
+
         productRepository.save(product);
     }
 }

@@ -16,7 +16,9 @@ public record ProductRequestDTO(
         @NotNull
         String description,
         @Positive
-        BigDecimal price,
+        BigDecimal initialPrice,
+        @Positive
+        BigDecimal minimalBid,
         @Positive
         int quantity,
         @NotNull

@@ -11,7 +11,9 @@ public class ProductMapper {
                 .name(request.name())
                 .currency(request.currency())
                 .description(request.description())
-                .price(request.price())
+                .initialPrice(request.initialPrice())
+                .finalPrice(request.initialPrice())
+                .minimalBid(request.minimalBid())
                 .quantity(request.quantity())
                 .userId(request.userId())
                 .categories(request.categories()).build();
