@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity(name = "event")
@@ -20,13 +21,19 @@ public class Event {
     private Long eventId;
 
     private Long userId;
+    private String organizerName;
     private String name;
     private String description;
+    @Enumerated(EnumType.STRING)
+    private EventStatus eventStatus;
     private BigDecimal entryFee;
     @Enumerated(EnumType.STRING)
     private AuthorizationAccess authorizationAccess;
     @Enumerated(EnumType.STRING)
     private AuctionType auctionType;
+
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
 
     @ElementCollection
     private List<Long> productListIds;
