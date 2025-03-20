@@ -33,6 +33,7 @@ public class Product {
     private BigDecimal minimalBid;
     private int quantity;
     private Currency currency;
+    private boolean isRemoved;
 
     @ElementCollection
     private List<String> categories;

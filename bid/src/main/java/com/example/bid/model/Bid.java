@@ -1,10 +1,7 @@
 package com.example.bid.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -19,6 +16,7 @@ import java.util.Currency;
 @NoArgsConstructor
 @Getter
 @Setter
+@Builder
 @EntityListeners(AuditingEntityListener.class)
 public class Bid {
 
@@ -26,9 +24,11 @@ public class Bid {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long bidId;
 
+    private Long userId;
+    private Long productId;
     private BigDecimal bidAmount;
     private Currency currency;
-
+    private boolean canceledBid;
 
     @CreatedDate
     @Column(updatable = false, nullable = false)

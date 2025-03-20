@@ -45,4 +45,11 @@ public class ProductService {
 
         productRepository.save(product);
     }
+
+    public void removeProduct(Long productId) {
+        log.info("REMOVING PRODUCT - ID :: {}",productId);
+        productRepository.updateProductToRemove(productId);
+    }
+
+    public List<Product> getProductsInAuction
 }
