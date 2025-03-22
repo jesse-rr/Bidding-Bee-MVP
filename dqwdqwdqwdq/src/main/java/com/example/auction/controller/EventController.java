@@ -1,4 +1,4 @@
-package com.example.eventmanagement.controller;
+package com.example.auction.controller;
 
 import com.example.eventmanagement.dto.EventRequestDTO;
 import com.example.eventmanagement.model.Event;
