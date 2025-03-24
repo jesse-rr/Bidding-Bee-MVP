@@ -17,7 +17,7 @@ public class UserService {
     private final UserMapper userMapper;
 
     public User getUserById(Long userId) {
-        log.info("GETTING USER WITH ID :: {}",userId);
+        log.info("RETRIEVING USER WITH ID :: {}",userId);
         return userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("USER NOT FOUND WITH ID :: "+userId));
     }

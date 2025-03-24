@@ -26,6 +26,7 @@ public class Product {
     private Long productId;
 
     private Long userId;
+    private Long auctionId;
     private String name;
     private String description;
     private BigDecimal initialPrice;

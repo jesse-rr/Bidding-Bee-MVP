@@ -1,15 +1,13 @@
-package com.example.bid;
+package com.example.gateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.kafka.annotation.EnableKafka;
 
 @SpringBootApplication
-@EnableKafka
-public class BidApplication {
+public class GatewayApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(BidApplication.class, args);
+        SpringApplication.run(GatewayApplication.class, args);
     }
 
 }

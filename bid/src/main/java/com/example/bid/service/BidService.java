@@ -1,5 +1,7 @@
 package com.example.bid.service;
 
+import com.example.bid.config.KafkaProducerBid;
+import com.example.bid.config.NotificationBid;
 import com.example.bid.dto.BidRequestDTO;
 import com.example.bid.model.Bid;
 import com.example.bid.repository.BidRepository;
@@ -17,6 +19,7 @@ import java.util.List;
 public class BidService {
 
     private final BidRepository bidRepository;
+    private final KafkaProducerBid kafkaProducerBid;
     private final BidMapper bidMapper;
 
     public void addBid(BidRequestDTO request) {
@@ -28,7 +31,11 @@ public class BidService {
                         .productId(request.productId())
                 .build());
 
-        // TODO message
+        kafkaProducerBid.sendBidNotificationRequest(
+                new NotificationBid(
+
+                )
+        );
     }
 
     public List<Bid> getBidsByProduct(Long productId) {
@@ -45,7 +52,23 @@ public class BidService {
     // TODO make sure its possible, already placed bids cannot be canceled and auction allows
     public void cancelBid(Long bidId) {
         log.info("CANCELING BID WITH ID :: {}",bidId);
+        var bid = getBidById(bidId);
+        if (bid.isCanceledBid()) {
+            throw new RuntimeException("BID ALREADY CANCELED");
+        }
         bidRepository.updateBidToCanceledById(bidId);
+
+        kafkaProducerBid.sendBidNotificationRequest(
+                new NotificationBid(
+
+                )
+        );
+    }
+
+    private Bid getBidById(Long bidId) {
+        log.info("RETRIEVING BID WITH ID :: {}",bidId);
+        return bidRepository.findById(bidId)
+                .orElseThrow(() -> new EntityNotFoundException("BID NOT FOUND WITH ID :: "+bidId));
     }
 
     public List<Bid> getAllBidsFromUserId(Long userId) {

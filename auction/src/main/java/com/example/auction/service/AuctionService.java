@@ -1,7 +1,10 @@
 package com.example.auction.service;
 
+import com.example.auction.config.KafkaProducerAuction;
+import com.example.auction.config.NotificationAuction;
 import com.example.auction.dto.AuctionRequestDTO;
 import com.example.auction.model.Auction;
+import com.example.auction.model.AuctionStatus;
 import com.example.auction.repository.AuctionRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -18,30 +21,38 @@ import java.time.temporal.ChronoUnit;
 public class AuctionService {
 
     private final AuctionRepository auctionRepository;
+    private final KafkaProducerAuction kafkaProducerAuction;
     private final AuctionMapper auctionMapper;
 
     public void addAuction(AuctionRequestDTO request) {
         log.info("ADDING AUCTION REQUEST :: {}", request);
         auctionRepository.save(auctionMapper.toAuction(request));
+
+        kafkaProducerAuction.sendAuctionNotificationRequest(
+                new NotificationAuction(
+
+                )
+        );
     }
 
-    public Auction getAccountById(Long auctionId) {
+    public Auction getAuctionById(Long auctionId) {
         log.info("RETRIEVING AUCTION WITH ID :: {}",auctionId);
         return auctionRepository.findById(auctionId)
                 .orElseThrow(() -> new EntityNotFoundException("AUCTION NOT FOUND WITH ID :: "+ auctionId));
     }
 
-    private boolean verifyDates(Long auctionId) {
-        var auction = getAccountById(auctionId);
-        if (auction.getStartDate().get()) {
+    public void removeAuctionById(Long auctionId) {
+        log.info("DELETING AUCTION BY ID :: {}",auctionId);
+        var auction = getAuctionById(auctionId);
+        if (auction.getEventStatus().equals(AuctionStatus.OPEN)) {
+            throw new RuntimeException("YOU CANNOT DELETE AN OPENED AUCTION");
+        }
+        auctionRepository.delete(auction);
 
-        }
-        if (auction.getStartDate() != null && auction.getEndDate() != null) {
-            return true;
-        }
+        kafkaProducerAuction.sendAuctionNotificationRequest(
+                new NotificationAuction(
+
+                )
+        );
     }
-
-    @Async
-    @Scheduled(cron = "0")
-    private
 }
